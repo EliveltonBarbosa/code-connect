@@ -39,8 +39,11 @@
 
     <main>
         <div class="container-upload-imagem">
-            <img class="main-imagem" src="./img/imagem1.png" alt="">
-            <button>Carregar imagem</button>
+            <div class="container-imagem">
+                <img class="main-imagem" src="./img/imagem1.png" alt="">
+            </div>
+            <button id="upload-btn">Carregar imagem</button>
+            <input type="file" id="imagem-upload" accept="image/" style="display: none;">
             <div class="container-imagem-nome">
                 <p>imagem_projeto.png</p>
                 <img src="./img/close.svg">
@@ -55,7 +58,7 @@
                 </div>
                 <div>
                     <label for="descricao">Descrição</label>
-                    <textarea id="descricao" name="descricao">
+                    <textarea id="descricao" name="descricao"></textarea>
                 </div>
                 <div>
                     <label for="categoria">Tags</label>
@@ -68,14 +71,14 @@
                     </li>
                 </ul>
                 <div class="container-botoes">
-                    <button class="botao-descricao">Descrição</button>
+                    <button class="botao-descartar">Descartar</button>
                     <button class="botao-publicar">Publicar</button>
                 </div>
             </form>
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <script src="scripts.js"></script>
 </body>
 
 </html>
