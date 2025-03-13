@@ -39,22 +39,77 @@ inputUpload.addEventListener('change', async (event) => {
 const inputTags = document.getElementById('input-tags');
 const tagList = document.getElementById('lista-tags');
 
-inputTags.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        const tag = inputTags.value.trim();
-        if (tag) {
-            const tagElement = document.createElement('li');
-            tagElement.innerHTML = `<p>${tag}</p> <img src="./img/close-black.svg" class="remove-tag">`;
-            tagList.appendChild(tagElement);
-            inputTags.value = '';
-        }
-    }
-});
-
 tagList.addEventListener('click', (event) => {
     if (event.target.classList.contains('remove-tag')) {
         const toRemove = event.target.parentElement;
         tagList.removeChild(toRemove);
+    }
+});
+
+const tagsDisponiveis = ['Front-end', 'Back-end', 'Programação', 'HTML', 'CSS', 'JavaScript', 'React', 'Vue', 'Angular', 'Node', 'Express', 'MongoDB', 'SQL', 'Python', 'Java', 'C#', 'C++', 'PHP', 'Ruby', 'Swift', 'Kotlin', 'Flutter', 'Dart', 'Mobile', 'Web', 'Desktop', 'API', 'REST', 'GraphQL', 'Firebase', 'AWS', 'Azure', 'Heroku', 'Netlify', 'Vercel', 'Spring', 'Laravel', 'Django', 'Flask', 'Express', 'Nest', 'TypeORM', 'Sequelize', 'Mongoose', 'ORM', 'TypeScript', 'Sass', 'Less'];
+
+async function checaTagsDisponiveis(tag) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+        resolve(tagsDisponiveis.includes(tag))
+        }, 1000)
+    });
+}
+
+inputTags.addEventListener('keypress', async (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        const tag = inputTags.value.trim();
+        if (tag) {
+            try {
+                const tagExiste = await checaTagsDisponiveis(tag);
+                if (!tagExiste) {
+                    alert('Tag não encontrada');
+                } else {
+                    const tagElement = document.createElement('li');
+                    tagElement.innerHTML = `<p>${tag}</p> <img src="./img/close-black.svg" class="remove-tag">`;
+                    tagList.appendChild(tagElement);
+                    inputTags.value = '';
+                }
+            } catch (error) {
+                console.error(`Erro ao verificar tag:${error}`);
+                alert('Tag inválida');
+                inputTags.value = '';
+                return;
+            }
+        }
+    }
+});
+
+
+async function publicarProjeto(nome, descricao, tags) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            const success = Math.random() > 0.5;
+            if (success) {
+                resolve('Projeto publicado com sucesso!');
+            } else {
+                alert('Erro ao publicar projeto');
+            }
+        }, 1000);
+    });
+}
+
+const btnPublicar = document.querySelector('.botao-publicar');
+
+btnPublicar.addEventListener('click', async (event) => {
+    event.preventDefault();
+    const nomeProjeto = document.getElementById('nome').value.trim();
+    const descricaoProjeto = document.getElementById('descricao').value;
+    const tags = Array.from(tagList.querySelectorAll('p')).map(tag => tag.
+    textContent);
+
+    try {
+        const response = await publicarProjeto(nomeProjeto, descricaoProjeto, tags);
+        console.log(response)
+        alert(response);
+    } catch (error) {
+        console.log(`Erro: ${error}`)
+        alert('Deu tudo errado')
     }
 });
