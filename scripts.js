@@ -51,9 +51,19 @@ const tagsDisponiveis = ['Front-end', 'Back-end', 'Programação', 'HTML', 'CSS'
 async function checaTagsDisponiveis(tag) {
     return new Promise((resolve) => {
         setTimeout(() => {
-        resolve(tagsDisponiveis.includes(tag))
-        }, 1000)
+        resolve(getTag(tag))
+    }, 1000)
     });
+}
+
+function getTag(busca){
+    var tagF = null
+    tagsDisponiveis.forEach(tag => {
+        if (tag.toLowerCase() === busca.trim().toLowerCase()) {
+            tagF = tag;
+        }
+    });
+    return tagF;
 }
 
 inputTags.addEventListener('keypress', async (event) => {
@@ -67,7 +77,7 @@ inputTags.addEventListener('keypress', async (event) => {
                     alert('Tag não encontrada');
                 } else {
                     const tagElement = document.createElement('li');
-                    tagElement.innerHTML = `<p>${tag}</p> <img src="./img/close-black.svg" class="remove-tag">`;
+                    tagElement.innerHTML = `<p>${tagExiste}</p> <img src="./img/close-black.svg" class="remove-tag">`;
                     tagList.appendChild(tagElement);
                     inputTags.value = '';
                 }
@@ -95,9 +105,9 @@ async function publicarProjeto(nome, descricao, tags) {
     });
 }
 
-const btnPublicar = document.querySelector('.botao-publicar');
+const botaoPublicar = document.querySelector('.botao-publicar');
 
-btnPublicar.addEventListener('click', async (event) => {
+botaoPublicar.addEventListener('click', async (event) => {
     event.preventDefault();
     const nomeProjeto = document.getElementById('nome').value.trim();
     const descricaoProjeto = document.getElementById('descricao').value;
@@ -112,4 +122,17 @@ btnPublicar.addEventListener('click', async (event) => {
         console.log(`Erro: ${error}`)
         alert('Deu tudo errado')
     }
+    
+});
+
+const botaoDescartar = document.querySelector('.botao-descartar');
+
+botaoDescartar.addEventListener('click', (event) => {
+    event.preventDefault();
+    
+    const form = document.querySelector('form');
+    form.reset();
+    mainImagem.src = './img/imagem1.png';
+    nomeImagem.textContent = 'imagem_projeto.png';
+    tagList.innerHTML = '';
 });
